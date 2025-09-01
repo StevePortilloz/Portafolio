@@ -1,0 +1,37 @@
+create database appservicios
+
+use database app servicios:
+
+CREATE TABLE compras (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    servicio_id INT NOT NULL,
+    fecha_compra DATE NOT NULL DEFAULT CURRENT_DATE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (servicio_id) REFERENCES servicios(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    fecha_registro DATE NOT NULL DEFAULT CURRENT_DATE,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    rol ENUM('admin', 'vendedor', 'cliente') NOT NULL
+);
+
+
+CREATE TABLE servicios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    descripcion TEXT NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    categoria VARCHAR(50) NOT NULL,
+    usuario_id INT NOT NULL,
+    fecha_creacion DATE NOT NULL DEFAULT CURRENT_DATE,
+    estado ENUM('disponible', 'inactivo', 'en_revision') NOT NULL DEFAULT 'disponible',
+    imagen VARCHAR(255),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
